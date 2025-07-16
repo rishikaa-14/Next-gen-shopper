@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Manage Users - NextGen Shopper</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .users-section {
+      padding: 2rem;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .users-section h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    #searchInput {
+      width: 100%;
+      padding: 12px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    th, td {
+      padding: 14px 20px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #111827;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    tr:hover {
+      background-color: #f1f5f9;
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <h1>NextGen Shopper</h1>
+    <nav>
+      <a href="admin_dashboard.html">Dashboard</a>
+      <a href="logout.html">Logout</a>
+    </nav>
+  </header>
+
+  <section class="users-section">
+    <h2>Manage Users</h2>
+    <input type="text" id="searchInput" placeholder="Search by name, email, or role..." />
+
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+        </tr>
+      </thead>
+      <tbody id="userTableBody">
+        <!-- Populated by JS -->
+      </tbody>
+    </table>
+  </section>
+
+  <script>
+    let allUsers = [];
+
+    window.onload = async () => {
+      const res = await fetch('/api/users');
+      allUsers = await res.json();
+      renderUsers(allUsers);
+    };
+
+    function renderUsers(users) {
+      const tbody = document.getElementById('userTableBody');
+      tbody.innerHTML = '';
+      users.forEach(user => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${user.first_name} ${user.last_name}</td>
+          <td>${user.email}</td>
+          <td>${user.role}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    document.getElementById('searchInput').addEventListener('input', function () {
+      const searchTerm = this.value.toLowerCase();
+      const filtered = allUsers.filter(user =>
+        `${user.first_name} ${user.last_name}`.toLowerCase().includes(searchTerm) ||
+        user.email.toLowerCase().includes(searchTerm) ||
+        user.role.toLowerCase().includes(searchTerm)
+      );
+      renderUsers(filtered);
+    });
+  </script>
+</body>
+</html>

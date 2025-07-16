@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NextGen Shopper</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<div id="chatbot">
+  <div id="chat-header">🤖 NeoBot</div>
+  <div id="chat-messages"></div>
+  <input type="text" id="chat-input" placeholder="Ask for recommendations..." />
+</div>
+
+<body>
+  <header class="navbar">
+    <h1>NextGen Shopper</h1>
+    <nav>
+      <a href="cart.html" class="cart">Cart (<span id="cartCount">0</span>)</a>
+      <button onclick="logout()">Logout</button>
+    </nav>
+    
+  </header>
+  <main>
+    <section class="hero">
+      <h2>Welcome to NextGen Shopper</h2>
+      <p>Discover the future of online shopping with our curated collection</p>
+    </section>
+    <section class="products-section">
+      <h3>Recommended For You</h3>
+      <div id="recommendations" class="product-grid"></div>
+    </section>
+    
+    <section class="products-section">
+      <h3>Our Products</h3>
+      <div class="product-grid" id="productList"></div>
+    </section>
+
+    <section class="review-section">
+      <h3>Write a Review</h3>
+      <form id="reviewForm">
+        <label for="reviewProductId">Product:</label>
+        <select id="reviewProductId" required></select><br>
+    
+        <label for="rating">Rating (1–5):</label>
+        <input type="number" id="rating" min="1" max="5" required><br>
+    
+        <label for="sentiment">Sentiment:</label>
+        <select id="sentiment">
+          <option value="positive">Positive</option>
+          <option value="neutral" selected>Neutral</option>
+          <option value="negative">Negative</option>
+        </select><br>
+    
+        <label for="comment">Comment:</label>
+        <textarea id="comment" required></textarea><br>
+    
+        <button type="submit">Submit Review</button>
+      </form>
+    </section>
+    
+    
+    
+  </main>
+  <div id="toastContainer" class="toast-container"></div>
+  <script src="script.js"></script>
+</body>
+</html>

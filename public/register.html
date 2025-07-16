@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Register - NextGen Shopper</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="navbar">
+    <h1>NextGen Shopper</h1>
+    <nav>
+      <a href="login.html">Login</a>
+    </nav>
+  </header>
+
+  <div class="auth-container">
+    <h2>Register to NextGen Shopper</h2>
+    <form id="registerForm">
+      <input type="text" id="first_name" placeholder="First Name" required />
+      <input type="text" id="last_name" placeholder="Last Name" required />
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <select id="role" required>
+        <option value="customer">Customer</option>
+        <option value="admin">Admin</option>
+      </select>
+      <button type="submit">Register</button>
+      <p>Already have an account? <a href="login.html">Login here</a></p>
+    </form>
+  </div>
+
+  <div id="toastContainer" class="toast-container"></div>
+  <script src="auth.js"></script>
+</body>
+</html>

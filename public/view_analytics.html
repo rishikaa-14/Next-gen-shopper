@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Analytics - NextGen Shopper</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .loader {
+      border: 4px solid #ccc;
+      border-top: 4px solid #2563eb;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <h1>NextGen Shopper</h1>
+    <nav>
+      <a href="admin_dashboard.html">Dashboard</a>
+      <a href="logout.html">Logout</a>
+    </nav>
+  </header>
+
+  <section class="orders-section">
+    <h2>Order Analytics</h2>
+    <div id="chart-container" style="position: relative;">
+      <canvas id="ordersChart" width="400" height="200"></canvas>
+    </div>
+  </section>
+
+  <script>
+    window.addEventListener("DOMContentLoaded", async () => {
+      const ctx = document.getElementById('ordersChart').getContext('2d');
+      const container = document.getElementById('chart-container');
+
+      const loader = document.createElement('div');
+      loader.className = "loader";
+      container.appendChild(loader);
+
+      try {
+        const response = await fetch('/api/analytics');
+        const { labels, data, year } = await response.json();
+
+        loader.remove();
+
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels,
+            datasets: [{
+              label: `Orders in ${year}`,
+              data,
+              backgroundColor: '#2563eb'
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: { display: false },
+              title: {
+                display: true,
+                text: `Monthly Orders in ${year}`,
+                font: { size: 18 }
+              }
+            }
+          }
+        });
+      } catch (error) {
+        loader.remove();
+        console.error("Chart load failed:", error);
+        container.innerHTML = "<p style='text-align:center;'>⚠️ Failed to load analytics data.</p>";
+      }
+    });
+  </script>
+</body>
+</html>
